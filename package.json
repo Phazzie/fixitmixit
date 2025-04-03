@@ -1,0 +1,40 @@
+{
+  "name": "fixitmixit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Relationship Resolver application for structured conflict resolution",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,scss}\""
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1",
+    "xstate": "^4.38.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jsdom": "^23.0.1",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.5",
+    "vitest": "^0.34.6"
+  }
+}
