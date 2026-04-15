@@ -6,6 +6,8 @@
 
 The core value proposition: conflicts that would otherwise spiral or end relationships are resolved constructively, with both parties understanding each other's perspectives and reaching agreement on actionable solutions.
 
+> **Note on AI feedback**: AI pattern detection runs asynchronously (up to 5s latency) during text submissions. References to "real-time" feedback throughout this document mean near-real-time async analysis that surfaces flags before the other user responds—not synchronous, inline-as-you-type checking.
+
 ---
 
 ## 2. Problem Statement
@@ -24,7 +26,7 @@ Interpersonal conflicts typically escalate due to:
 - **DIY communication**: Self-help books and frameworks lack enforcement and real-time guidance
 - **Online conflict forums**: Anonymous, unmoderated, low-quality resolutions
 
-**FixItMixit fills this gap** by providing an affordable, structured, always-available framework that enforces best-practice communication patterns while providing real-time AI feedback.
+**FixItMixit fills this gap** by providing an affordable, structured, always-available framework that enforces best-practice communication patterns while providing near-real-time, async AI feedback on submissions.
 
 ---
 
@@ -114,7 +116,8 @@ Interpersonal conflicts typically escalate due to:
 - [ ] User A proposes a contention (specific claim or argument)
 - [ ] User B must directly address it with a rebuttal
 - [ ] Cannot introduce new issues; stays on locked positions
-- [ ] Max 3 contentions per user per cycle (prevents rambling)
+- [ ] A "cycle" is one complete contention round: it starts when either user submits a new contention and ends when the other user submits the direct rebuttal to that contention
+- [ ] Each user may submit at most 3 contentions total during their opportunity to raise contention rounds in Phase 4; after each contention receives its direct rebuttal, the next contention starts a new cycle
 - [ ] AI pattern detection flags:
   - Ad hominem attacks ("You're selfish" vs. "I felt disrespected when...")
   - Logical fallacies (false dichotomy, appeal to authority)
@@ -184,7 +187,7 @@ Interpersonal conflicts typically escalate due to:
 - [ ] Flag goes to human reviewer queue
 - [ ] Reviewer examines context, decides: overrule or confirm
 - [ ] Decision sent to both users with explanation
-- **Cost model** (future): First 3 disputes free; additional disputes charged at $2/flag
+- **Post-v1 cost model only**: First 3 disputes free; additional disputes may be charged at $2/flag. Payment processing and billing enforcement are out of scope for v1.
 
 ---
 
@@ -198,7 +201,7 @@ Interpersonal conflicts typically escalate due to:
 ---
 
 ### 5.4 Session Management
-- [ ] Users can create unlimited sessions (new issues)
+- [ ] Users can create sessions based on plan limits: free tier capped at 2 new sessions/month; premium tier unlimited
 - [ ] Pause/resume sessions (48-hour inactivity limit before auto-resume prompt)
 - [ ] Archive completed sessions
 - [ ] View session history and past resolutions
@@ -209,14 +212,14 @@ Interpersonal conflicts typically escalate due to:
 ## 6. Non-Functional Requirements
 
 ### 6.1 Performance
-- **Page load**: < 2s (Core Web Vitals: LCP, FID, CLS)
+- **Page load**: < 2s (Core Web Vitals: LCP, INP, CLS)
 - **Phase transitions**: < 500ms
 - **Sync updates between users**: < 1s (real-time updates via WebSocket/polling)
 - **Search/archive queries**: < 3s for 1000+ sessions
 
 ### 6.2 Scalability
 - Support 10,000+ concurrent users
-- Supabase auto-scaling (PostgreSQL + CDN)
+- Supabase scaling plan: upgrade PostgreSQL compute/storage tiers as load grows, add read replicas for read-heavy workloads, enable connection pooling for high concurrent traffic, and use CDN/caching for static assets
 - AI batch processing for pattern detection (async, max 5s latency)
 
 ### 6.3 Security
@@ -254,7 +257,7 @@ Interpersonal conflicts typically escalate due to:
 ### Business
 - **MVP scope**: 8-phase system, AI pattern detection, basic export
 - **User acquisition**: Organic (word-of-mouth, SEO) until v1 launch
-- **Pricing**: Free tier (2 sessions/month) + premium ($9.99/mo unlimited)
+- **Pricing**: v1 launches without payment processing and is free to use; post-v1 plan is a free tier (2 sessions/month) + premium ($9.99/mo unlimited) once billing is added
 - **Language**: English only (v1); i18n structure ready for future localization
 
 ### Legal & Ethical
@@ -412,7 +415,7 @@ This PRD includes several strategic improvements:
 3. **Manual review economics** - Monetizes disputed flags; prevents abuse
 4. **Session pause/resume** - Users can step away without losing progress
 5. **Offline drafting** - Critical for trust (users want to compose privately)
-6. **Timeline specificity** - Broke down 8-phase build into 4 concrete phases with deliverables
+6. **Timeline specificity** - Broke down 8-phase build into 5 concrete phases (Phase 0–4) with deliverables
 7. **Success metrics tied to business** - NPS, LTV:CAC, retention tell the real story
 8. **Freemium clarity** - Free tier (2 sessions) is specific; signals scarcity without hard paywalls
 9. **Out of Scope section** - Prevents scope creep (mobile, legal docs, multi-party are explicitly v2+)
